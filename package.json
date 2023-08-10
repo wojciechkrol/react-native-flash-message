@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "prop-types": "^15.8.1",
-    "react-native-iphone-x-helper": "wojciechkrol/react-native-iphone-x-helper.git#master"
+    "react-native-iphone-x-helper": "https://github.com/wojciechkrol/react-native-iphone-x-helper.git#master"
   },
   "devDependencies": {
     "prettier": "^2.5.1",
