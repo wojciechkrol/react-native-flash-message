@@ -524,7 +524,7 @@ export default class FlashMessage extends Component {
         Animated.timing(this.state.visibleValue, {
           toValue: 1,
           duration: animationDuration,
-          useNativeDriver: true,
+          useNativeDriver: Platform.OS === "ios",
         }).start(finish);
       } else {
         finish();
@@ -553,7 +553,7 @@ export default class FlashMessage extends Component {
         Animated.timing(this.state.visibleValue, {
           toValue: 0,
           duration: animationDuration,
-          useNativeDriver: true,
+          useNativeDriver: Platform.OS === "ios",
         }).start(finish);
       } else {
         finish();
