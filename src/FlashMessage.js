@@ -1,7 +1,6 @@
-import React, { Component } from "react";
-import { StyleSheet, TouchableWithoutFeedback, Platform, StatusBar, Animated, Image, Text, View } from "react-native";
-import { isIphoneX, getStatusBarHeight } from "react-native-iphone-screen-helper";
 import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { Animated, Image, Platform, StatusBar, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 
 import FlashMessageManager from "./FlashMessageManager";
 import FlashMessageWrapper, { styleWithInset } from "./FlashMessageWrapper";
@@ -217,8 +216,7 @@ export const DefaultFlash = React.forwardRef(
       <FlashMessageWrapper
         ref={ref}
         position={typeof position === "string" ? position : null}
-        statusBarHeight={statusBarHeight}
-      >
+        statusBarHeight={statusBarHeight}>
         {wrapperInset => (
           <View
             style={styleWithInset(
@@ -239,8 +237,7 @@ export const DefaultFlash = React.forwardRef(
               !!hideStatusBar,
               position !== "center" && floating ? "margin" : "padding"
             )}
-            {...props}
-          >
+            {...props}>
             {hasIcon && icon.position === "left" && iconView}
             <View style={[{ flexDirection: "column" }, position !== "center" && { flex: 1 }]}>
               {!!renderBeforeContent && renderBeforeContent(message)}
@@ -252,8 +249,7 @@ export const DefaultFlash = React.forwardRef(
                   titleStyle,
                 ]}
                 {...textProps}
-                {...titleProps}
-              >
+                {...titleProps}>
                 {message.message}
               </Text>
               {!!renderCustomContent && renderCustomContent(message)}
@@ -691,7 +687,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
     marginBottom: 10,
     borderRadius: 8,
-    minHeight: OFFSET_HEIGHT - getStatusBarHeight(),
+    // minHeight: OFFSET_HEIGHT - getStatusBarHeight(),
   },
   defaultFlashWithIcon: {
     flexDirection: "row",

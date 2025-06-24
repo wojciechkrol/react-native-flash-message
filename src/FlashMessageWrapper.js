@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { Dimensions, Platform, StatusBar, StyleSheet } from "react-native";
-import { isIphoneX, getStatusBarHeight } from "react-native-iphone-screen-helper";
 import PropTypes from "prop-types";
+import { Component } from "react";
+import { Dimensions, Platform, StatusBar, StyleSheet } from "react-native";
+import { getStatusBarHeight, isIphoneX } from "react-native-iphone-screen-helper";
+import { withSafeAreaInsets } from "react-native-safe-area-context";
 
 /**
  * DETECTION AND DIMENSIONS CODE FROM:
@@ -173,7 +174,7 @@ export function styleWithInsetMargin(style, wrapperInset, hideStatusBar = false)
 /**
  * Utility component wrapper to handle orientation changes and extra padding control for iOS (specially iPads and iPhone X)
  */
-export default class FlashMessageWrapper extends Component {
+class FlashMessageWrapperWithoutContext extends Component {
   static defaultProps = {
     /**
      * Default FlashMessage position is "top"
@@ -208,10 +209,10 @@ export default class FlashMessageWrapper extends Component {
     this.setState({ isLandscape });
   }
   render() {
-    const { position, statusBarHeight = null, children } = this.props;
+    const { position, statusBarHeight = null, children, insets } = this.props;
     const { isLandscape } = this.state;
 
-    const _statusBarHeight = getFlashMessageStatusBarHeight(isLandscape, statusBarHeight);
+    // const _statusBarHeight = getFlashMessageStatusBarHeight(isLandscape, statusBarHeight);
 
     /**
      * This wrapper will return data about extra inset padding, statusBarHeight and some device detection like iPhoneX and iPad
@@ -220,13 +221,17 @@ export default class FlashMessageWrapper extends Component {
       isLandscape,
       isIPhoneX: isIPhoneX,
       isIPad: isIPad,
-      statusBarHeight: _statusBarHeight,
-      insetTop: position === "top" ? _statusBarHeight : 0,
-      insetLeft: (position === "top" || position === "bottom") && isLandscape ? (isIPhoneX ? 21 : 0) : 0,
-      insetRight: (position === "top" || position === "bottom") && isLandscape ? (isIPhoneX ? 21 : 0) : 0,
-      insetBottom: isIPhoneX && position === "bottom" ? (isLandscape ? 24 : 34) : isAndroid ? 2 : 0,
+      statusBarHeight: insets.top,
+      insetTop: position === "top" ? insets.top : 0,
+      insetLeft: position === "top" || position === "bottom" ? insets.left : 0,
+      insetRight: position === "top" || position === "bottom" ? insets.left : 0,
+      insetBottom: position === "bottom" ? insets.insetBottom : 0,
     };
 
     return children(wrapper);
   }
 }
+
+const FlashMessageWrapper = withSafeAreaInsets(FlashMessageWrapperWithoutContext);
+
+export default FlashMessageWrapper;
